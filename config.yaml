@@ -1,0 +1,56 @@
+cities:
+  - {name: Delhi,     lat: 28.6139, lon: 77.2090, state: Delhi}
+  - {name: Mumbai,    lat: 19.0760, lon: 72.8777, state: Maharashtra}
+  - {name: Ahmedabad, lat: 23.0225, lon: 72.5714, state: Gujarat}
+  - {name: Bhavnagar, lat: 21.7645, lon: 72.1519, state: Gujarat}
+  - {name: Kolkata,   lat: 22.5726, lon: 88.3639, state: West Bengal}
+  - {name: Bengaluru, lat: 12.9716, lon: 77.5946, state: Karnataka}
+
+timezone: Asia/Kolkata
+
+aws:
+  region: ap-south-1
+  bucket: aqi-pipeline-yourname
+
+storage:
+  mode: local  # "local" or "s3"
+  local_dir: data
+
+forecast:
+  horizons: [1, 2, 3, 4, 5, 6, 7]
+  target: us_aqi_mean
+
+training:
+  test_fraction: 0.15
+  n_splits: 5
+  models:
+    - baseline_persistence
+    - baseline_seasonal
+    - ridge
+    - random_forest
+    - xgboost
+
+monitoring:
+  retrain_if_mae_above: 25.0
+  drift_psi_threshold: 0.25
+
+apis:
+  air_quality_url: "https://air-quality-api.open-meteo.com/v1/air-quality"
+  weather_url: "https://api.open-meteo.com/v1/forecast"
+  archive_weather_url: "https://archive-api.open-meteo.com/v1/archive"
+  hourly_aq_vars:
+    - pm10
+    - pm2_5
+    - carbon_monoxide
+    - nitrogen_dioxide
+    - sulphur_dioxide
+    - ozone
+    - us_aqi
+  hourly_weather_vars:
+    - temperature_2m
+    - relative_humidity_2m
+    - wind_speed_10m
+    - wind_direction_10m
+    - precipitation
+    - surface_pressure
+    - cloud_cover

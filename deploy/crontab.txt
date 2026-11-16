@@ -1,0 +1,5 @@
+# Daily ingestion, validation, forecasting, and evaluation at 01:00 IST
+0 1 * * * /home/ubuntu/aqi-forecast-pipeline/scripts/run_pipeline.sh >> /home/ubuntu/logs/pipeline.log 2>&1
+
+# Weekly model retraining and champion/challenger evaluation on Sundays at 03:00 IST
+0 3 * * 0 /home/ubuntu/aqi-forecast-pipeline/scripts/retrain.sh >> /home/ubuntu/logs/retrain.log 2>&1
